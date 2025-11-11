@@ -1,0 +1,19 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: #87CEEB;
+}
+
+#game-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+#score {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    color: white;
+    z-index: 100;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "my-web-project",
+  "version": "1.0.0",
+  "description": "A simple web project that separates HTML, CSS, and JavaScript into distinct files.",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "open src/index.html"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
