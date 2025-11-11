@@ -1,5 +1,6 @@
 let scene, camera, renderer, grandma, apples = [], stones = [], oranges = [];
 let score = 0;
+let groundLevel = -6;
 
 function createGrandma() {
     // Create grandma group
@@ -120,6 +121,7 @@ function createOrange() {
     orange.position.x = Math.random() * 20 - 10;
     orange.position.y = 10;
     orange.position.z = 0;
+    orange.velocity = { x: 0, y: 0, z: 0 };
     scene.add(orange);
     oranges.push(orange);
 }
@@ -158,19 +160,32 @@ function updateGame() {
 
     // Move and check oranges
     oranges.forEach((orange, index) => {
-        orange.position.y -= 0.12; // Oranges fall slightly faster than apples
+        // Apply gravity and velocity
+        orange.velocity.y -= 0.15;
+        orange.position.y += orange.velocity.y;
         orange.rotation.x += 0.03;
+
+        // Bounce off ground
+        if (orange.position.y <= groundLevel + 0.55) {
+            orange.position.y = groundLevel + 0.55;
+            orange.velocity.y *= -0.7; // Bounce with 70% elasticity
+            
+            // Stop bouncing if velocity is too small
+            if (Math.abs(orange.velocity.y) < 0.1) {
+                orange.velocity.y = 0;
+            }
+        }
 
         if (orange.position.y <= grandma.position.y + 3 &&
             orange.position.y >= grandma.position.y &&
             Math.abs(orange.position.x - grandma.position.x) < 1.5) {
-            scene.remove(orange);
-            oranges.splice(index, 1);
+            // Bounce when hitting grandma
+            orange.velocity.y = 0.8; // Strong bounce upward
             score += 2; // Oranges give more points
             document.getElementById('scoreValue').textContent = score;
         }
 
-        if (orange.position.y < -6) {
+        if (orange.position.y < -8) {
             scene.remove(orange);
             oranges.splice(index, 1);
         }
